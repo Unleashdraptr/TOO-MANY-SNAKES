@@ -26,7 +26,10 @@ public class RangedWeapons : MonoBehaviour
     void Update()
     {
         if (AttackCDTimer >= 0)
+        {
+            WeaponClass.Weapons.SetBool("ProjectileLaunched", false);
             AttackCDTimer -= Time.deltaTime;
+        }
 
         if ((int)WeaponClass.weaponState >= (int)Player_Combat.WeaponState.BOW)
         {
@@ -37,17 +40,20 @@ public class RangedWeapons : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && isDrawing == false && AttackCDTimer <= 0)
             {
+                WeaponClass.Weapons.SetBool("IsAttacking", true);
                 isDrawing = true;
             }
             if (Input.GetMouseButtonUp(0) && isDrawing == true)
             {
+                WeaponClass.Weapons.SetBool("IsAttacking", false);
+                WeaponClass.Weapons.SetBool("ProjectileLaunched", true);
                 isDrawing = false;
                 AttackCDTimer = CDs[(int)WeaponClass.weaponState - 3];
                 switch (WeaponClass.weaponState)
                 {
                     case Player_Combat.WeaponState.BOW:
-                        //Woink Owens Code for this
-                        //Stats.Equipables.Bow.Projectile;
+                        Instantiate(Stats.Equipables.Bow.Projectile);
+                        rb.velocity += Spit.transform.forward * 10 + Spit.transform.up * 10;
                         return;
                 }
                 Power = 0;

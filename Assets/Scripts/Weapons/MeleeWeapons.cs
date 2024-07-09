@@ -35,6 +35,7 @@ public class MeleeWeapons : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && AttackCDTimer <= 0)
             {
+                WeaponClass.Weapons.SetBool("IsAttacking", true);
                 Attacking = true;
                 switch (WeaponClass.weaponState)
                 {
@@ -57,6 +58,7 @@ public class MeleeWeapons : MonoBehaviour
             }
             if (SwingTimeTimer <= 0 && Attacking == true)
             {
+                WeaponClass.Weapons.SetBool("IsAttacking", false);
                 SwingTimeTimer = 1f;
                 Attacking = false;
                 colliders[0].enabled = false;
