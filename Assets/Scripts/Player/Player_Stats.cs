@@ -9,11 +9,14 @@ public class Player_Stats : MonoBehaviour
 {
     public float Health;
     public float MaxHealth;
+
+    public Equipment Equipables;
+    
     public int Attack;
     public int Defense;
     public float Speed;
     public int CritChance;
-    public Accessories Equipables;
+    
 
 
     Player_Movement Movement;
@@ -25,10 +28,8 @@ public class Player_Stats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Equipables = new Accessories();
         Movement = transform.GetComponentInParent<Player_Movement>();
         moveState = EffectState.NONE;
-        Equipables.Hammer.Damage = 10;
     }
 
     // Update is called once per frame
@@ -52,10 +53,10 @@ public class Player_Stats : MonoBehaviour
                         Health -= 10;
                         return true;
                     case EffectState.STUNNED:
-                        Movement.Slow /= 2;
-                        if (Movement.Slow.x < 0.125)
+                        Movement.StatusSlow /= 2;
+                        if (Movement.StatusSlow.x < 0.125)
                         {
-                            Movement.Slow = new(0.125f, 0.125f, 0.125f);
+                            Movement.StatusSlow = new(0.125f, 0.125f, 0.125f);
                         }
                         return true;
                 } 
@@ -77,7 +78,7 @@ public class Player_Stats : MonoBehaviour
         if (other.gameObject.CompareTag("Slowed"))
         {
             Timer = StatusEffectTimer;
-            Movement.Slow /= 2;
+            Movement.StatusSlow /= 2;
             moveState = EffectState.STUNNED;
         }
     }
@@ -89,50 +90,18 @@ public class Player_Stats : MonoBehaviour
         }
     }
 }
-public class Accessories
+
+[System.Serializable]
+public class Equipment
 {
     public Headgear Head;
     public Bodygear Armour;
     public ArmGear Braces;
-    public Weapon Sword;
-    public Weapon Hammer;
-    public Weapon Gloves;
-    public Weapon Bow;
+    public Accessory Accessory;
     public Bootgear Bootgear;
-}
 
-public class Item
-{
-    public int Level;
-    public string Name;
-    public int BuyPrice;
-    public int SellPrice;
-    public Texture2D UISprite;
-    
-}
-public class Headgear : Item
-{
-    public int Defense;
-    public GameObject Model;
-}
-public class Bodygear : Item
-{
-    public int Defense;
-    public GameObject Model;
-}
-public class Weapon : Item
-{
-    public int Damage;
-    public int SwingSpeed;
-    public GameObject Model;
-}
-public class Bootgear : Item
-{
-    public int Defense;
-    public GameObject Model;
-}
-public class ArmGear : Item
-{
-    public int Defense;
-    public GameObject Model;
+    public Weapon_Melee Sword;
+    public Weapon_Melee Hammer;
+    public Weapon_Melee Gloves;
+    public Weapon_Range Bow;
 }

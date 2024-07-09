@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class MeleeWeapons : MonoBehaviour
 {
-    public float[] CDs = {10, 10, 0.33f };
-    public float[] AttackSpeeds = { 1, 1, 0.25f };
     public BoxCollider[] colliders;
     public Transform HammerCentre;
 
-    public float CD;
     public float AttackSpeed;
     public bool Attacking;
     public float AttackCDTimer;
-    public float AttackTimeTimer;
+    public float SwingTimeTimer;
 
     public Player_Combat WeaponClass;
     public Player_Stats Stats;
@@ -23,42 +20,46 @@ public class MeleeWeapons : MonoBehaviour
 
     private void Start()
     {
-        WeaponClass = transform.parent.parent.GetChild(0).GetComponent<Player_Combat>();
+        WeaponClass = transform.parent.GetChild(0).GetComponent<Player_Combat>();
+        Stats = transform.parent.GetChild(0).GetComponent<Player_Stats>();
     }
     void Update()
     {
+        if (AttackCDTimer >= 0 && Attacking == false)
+            AttackCDTimer -= Time.deltaTime;
+
         if ((int)WeaponClass.weaponState < 3)
         {
             if (Attacking)
-                AttackTimeTimer -= Time.deltaTime;
-            else if (AttackCDTimer >= 0)
-                AttackCDTimer -= Time.deltaTime;
+                SwingTimeTimer -= Time.deltaTime;
 
-            CD = CDs[(int)WeaponClass.weaponState];
-            AttackSpeed = AttackSpeeds[(int)WeaponClass.weaponState];
-
-            if (Input.GetMouseButtonDown(0) && Attacking == false)
+            if (Input.GetMouseButtonDown(0) && AttackCDTimer <= 0)
             {
                 Attacking = true;
-                AttackTimeTimer = AttackSpeed;
                 switch (WeaponClass.weaponState)
                 {
                     case Player_Combat.WeaponState.SWORD:
-                        //Need to set up sword collision
+                        SwingTimeTimer = Stats.Equipables.Sword.SwingSpeed;
+                        AttackCDTimer = Stats.Equipables.Sword.Recharge;
+                        colliders[0].enabled = true;
                         return;
                     case Player_Combat.WeaponState.HAMMER:
+                        SwingTimeTimer = Stats.Equipables.Hammer.SwingSpeed;
+                        AttackCDTimer = Stats.Equipables.Hammer.Recharge;
                         colliders[1].enabled = true;
                         return;
                     case Player_Combat.WeaponState.MELEE:
+                        SwingTimeTimer = Stats.Equipables.Gloves.SwingSpeed;
+                        AttackCDTimer = Stats.Equipables.Gloves.Recharge;
                         colliders[2].enabled = true;
                         return;
                 }
             }
-            if (AttackTimeTimer <= 0 && Attacking == true)
+            if (SwingTimeTimer <= 0 && Attacking == true)
             {
-                AttackTimeTimer = AttackSpeed;
-                AttackCDTimer = CD;
+                SwingTimeTimer = 1f;
                 Attacking = false;
+                colliders[0].enabled = false;
                 colliders[1].enabled = false;
                 colliders[2].enabled = false;
                 EnemiesHit.Clear();
@@ -74,23 +75,28 @@ public class MeleeWeapons : MonoBehaviour
             if (!EnemiesHit.Contains(other.gameObject))
             {
                 EnemiesHit.Add(other.gameObject);
-                float Dmg;
-                switch (WeaponClass.weaponState)
-                {
-                    case Player_Combat.WeaponState.SWORD:
-                        Dmg = Stats.Equipables.Hammer.Damage;
-                        return;
-                    case Player_Combat.WeaponState.HAMMER:
-                        float Dist = Vector3.Distance(other.transform.position, HammerCentre.transform.position)*10;
-                        Dist = 100 - ((-Dist * 100) / 18);
-                        Dmg = (Stats.Equipables.Hammer.Damage / Dist) * 100;
-                        return;
-                    case Player_Combat.WeaponState.MELEE:
-                        Dmg = Stats.Equipables.Hammer.Damage;
-                        return;
-                }
-                //Attack Enemies
+                float Dmg = CheckWeaponType(other.gameObject);
+                EnemyStats Enemy = other.GetComponent<EnemyStats>();
+                Dmg -= Enemy.Defense;
+                Enemy.Health -= Dmg;
+                Enemy.DeathCheck();
             }
         }
+    }
+    float CheckWeaponType(GameObject Enemy)
+    {
+        switch (WeaponClass.weaponState)
+        {
+            case Player_Combat.WeaponState.SWORD:
+                return Stats.Equipables.Sword.Damage;
+            case Player_Combat.WeaponState.HAMMER:
+                float Dist = Vector3.Distance(Enemy.transform.position, HammerCentre.transform.position) * 10;
+                Dist = 100 - ((-Dist * 100) / 18);
+                return (Stats.Equipables.Hammer.Damage / Dist) * 100;
+            case Player_Combat.WeaponState.MELEE:
+                SwingTimeTimer = 0;
+                return Stats.Equipables.Gloves.Damage;
+        }
+        return 0;
     }
 }

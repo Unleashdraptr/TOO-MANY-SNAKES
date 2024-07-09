@@ -13,7 +13,8 @@ public class Player_Movement : MonoBehaviour
     public Transform Feet;
     public Transform PlayerCamera;
     public Rigidbody rb;
-    public Vector3 Slow = new(1,1,1); 
+    public Vector3 StatusSlow = new(1,1,1);
+    public Vector3 ShieldSlow = new(1, 1, 1);
     //Players input
     Vector3 PlayerMoveInput;
     Vector2 CameraMoveInput;
@@ -110,12 +111,12 @@ public class Player_Movement : MonoBehaviour
     {
         //Run the Physics calculations
         MovePlayer();
-        if(!Stats.CheckForStatus() && Slow.x < 1)
+        if(!Stats.CheckForStatus() && StatusSlow.x < 1)
         {
-            Slow *= 1.025f;
-            if(Slow.x > 1)
+            StatusSlow *= 1.025f;
+            if(StatusSlow.x > 1)
             {
-                Slow = new Vector3(1, 1, 1);
+                StatusSlow = new Vector3(1, 1, 1);
             }    
         }
     }
@@ -129,7 +130,8 @@ public class Player_Movement : MonoBehaviour
         Vector3 MoveDir = transform.TransformDirection(PlayerMoveInput) * Speed;
         //Setting the Y velocity aswell
         MoveDir.y = rb.velocity.y;
-        MoveDir.Scale(Slow);
+        MoveDir.Scale(StatusSlow);
+        MoveDir.Scale(ShieldSlow);
         //If its true then increase speed and lower stamina
         if (moveState == MoveState.DASH)
         {
