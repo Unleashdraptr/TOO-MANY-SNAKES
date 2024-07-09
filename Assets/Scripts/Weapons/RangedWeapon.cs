@@ -53,7 +53,7 @@ public class RangedWeapons : MonoBehaviour
                 {
                     case Player_Combat.WeaponState.BOW:
                         Instantiate(Stats.Equipables.Bow.Projectile);
-                        rb.velocity += Spit.transform.forward * 10 + Spit.transform.up * 10;
+                        //rb.velocity += Spit.transform.forward * 10 + Spit.transform.up * 10;
                         return;
                 }
                 Power = 0;

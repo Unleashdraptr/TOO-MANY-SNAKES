@@ -102,6 +102,10 @@ public class SnakeAI : MonoBehaviour
         switch (snakeType)
         {
             case SnakeType.DashSnake:
+                if (attackTime == 0)
+                {
+                    Destroy(Instantiate(SnakeItem, transform), 1);
+                }
                 transform.position += transform.forward * moveSpeed * Time.deltaTime * 2;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
@@ -136,7 +140,11 @@ public class SnakeAI : MonoBehaviour
                 break;
 
             case SnakeType.Constrictor:
-                transform.position += transform.forward * moveSpeed * Time.deltaTime * 2;
+                if (attackTime == 0)
+                {
+                    Destroy(Instantiate(SnakeItem, transform), 1);
+                }
+                transform.position += transform.forward * moveSpeed * Time.deltaTime * 3;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
                 {
@@ -146,9 +154,9 @@ public class SnakeAI : MonoBehaviour
                 break;
 
             case SnakeType.SlamSnake:
-                if (CheckDistance(10, goal.position) && attackTime == 0)
+                if (CheckDistance(attackDistance + 3, goal.position) && attackTime == 0)
                 {
-                    goal.GetComponent<Rigidbody>().velocity += transform.forward * 3 + transform.up * 3;
+                    goal.GetComponent<Rigidbody>().velocity += transform.forward * 15 + transform.up * 5;
                 }
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
