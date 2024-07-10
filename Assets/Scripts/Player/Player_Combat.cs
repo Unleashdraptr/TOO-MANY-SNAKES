@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class Player_Combat : MonoBehaviour
 {
-    Player_Stats stats;
     Player_Movement Movement;
-
-    MeleeWeapons Melee;
-    RangedWeapons Ranged;
 
     float SwapDelay;
     public bool Shielding;
@@ -18,17 +14,11 @@ public class Player_Combat : MonoBehaviour
     public enum WeaponState { SWORD, HAMMER, MELEE, BOW };
     public WeaponState weaponState;
 
-    public GameObject HammerCentre;
-    public Transform WeaponStorage;
     // Start is called before the first frame update
     void Start()
     {
         Shielding = false;
-        stats = GetComponent<Player_Stats>();
-        Weapons = WeaponStorage.GetComponent<Animator>();
         Movement = transform.GetComponentInParent<Player_Movement>();
-        Melee = transform.parent.GetChild(2).GetComponent<MeleeWeapons>();
-        Ranged = transform.parent.GetChild(2).GetComponent<RangedWeapons>();
         SwapWeapon();
     }
 
@@ -38,7 +28,7 @@ public class Player_Combat : MonoBehaviour
         if (SwapDelay > 0)
             SwapDelay -= Time.deltaTime;
 
-        if (!Melee.Attacking && !Ranged.isDrawing)
+        if (!GetComponent<MeleeWeapons>().Attacking && !GetComponent<RangedWeapons>().isDrawing)
         {
             if (Input.GetMouseButtonUp(1) && Shielding == true)
             {
@@ -74,28 +64,28 @@ public class Player_Combat : MonoBehaviour
 
     private void SwapWeapon()
     {
-        for(int i = 0; i < WeaponStorage.childCount; i++)
+        for(int i = 0; i < Weapons.transform.childCount; i++)
         {
-            WeaponStorage.GetChild(i).localScale = new Vector3(0, 0, 0);
+            Weapons.transform.GetChild(i).localScale = new Vector3(0, 0, 0);
         }
         if ((int)weaponState < 2)
-            WeaponStorage.GetChild(4).localScale = new Vector3(1, 1, 1);
+            Weapons.transform.GetChild(4).localScale = new Vector3(1, 1, 1);
         else
-            WeaponStorage.GetChild(4).localScale = new Vector3(0, 0, 0);
+            Weapons.transform.GetChild(4).localScale = new Vector3(0, 0, 0);
         if ((int)weaponState >= 2 && Shielding == true)
         {
-            WeaponStorage.GetChild(4).localScale = new Vector3(0, 0, 0);
+            Weapons.transform.GetChild(4).localScale = new Vector3(0, 0, 0);
             Shielding = false;
             Weapons.SetBool("IsShielding", Shielding);
             Movement.ShieldSlow *= 4;
         }
-        
 
-        WeaponStorage.GetChild((int)weaponState).localScale = new Vector3(1, 1, 1);
+
+        Weapons.transform.GetChild((int)weaponState).localScale = new Vector3(1, 1, 1);
         if((int)weaponState == 1)
-            HammerCentre.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
         else
-            HammerCentre.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
         Weapons.SetInteger("Weapon", (int)weaponState);
         SwapDelay = 0.75f;
     }
