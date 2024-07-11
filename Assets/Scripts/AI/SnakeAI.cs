@@ -131,6 +131,7 @@ public class SnakeAI : MonoBehaviour
                     Spit.transform.SetPositionAndRotation(transform.position, transform.rotation);
                     rb.velocity += Spit.transform.forward * 10 + Spit.transform.up * 10;
                 }
+                transform.position += transform.forward * moveSpeed * Time.deltaTime * -1.3f;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
                 {

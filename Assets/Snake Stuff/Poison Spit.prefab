@@ -147,3 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VenomPuddle: {fileID: 6787676964204619156, guid: 8f70d5f7efc4d724892881a96e5933b8, type: 3}
+  Offset: {x: 0, y: -0.5, z: 0}
