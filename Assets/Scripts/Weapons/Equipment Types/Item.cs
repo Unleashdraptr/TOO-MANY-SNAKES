@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
+    [Header("Item Properties")]
     public int Level;
     public string Name;
     public int BuyPrice;
     public int SellPrice;
-    public Texture2D UISprite;
+    public Sprite UISprite;
 }

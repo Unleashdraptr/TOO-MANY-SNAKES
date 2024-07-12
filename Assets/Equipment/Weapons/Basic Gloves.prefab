@@ -48,7 +48,7 @@ MonoBehaviour:
   Name: Basic Gloves
   BuyPrice: 10
   SellPrice: 5
-  UISprite: {fileID: 0}
+  UISprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   Damage: 3
   SwingSpeed: 0.25
   Recharge: 0.33

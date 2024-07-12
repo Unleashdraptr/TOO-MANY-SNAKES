@@ -10,12 +10,17 @@ public class Player_Stats : MonoBehaviour
     public float Health;
     public float MaxHealth;
 
-    public Equipment Equipables;
+    public EquipmentSelection Equipables;
     
     public int Attack;
     public int Defense;
     public float Speed;
+    [Range(0,100)]
+    public int DodgeChance;
+    public float HealMult;
+    [Range(0, 100)]
     public int CritChance;
+    public float CritMult;
     
 
 
@@ -92,13 +97,13 @@ public class Player_Stats : MonoBehaviour
 }
 
 [System.Serializable]
-public class Equipment
+public class EquipmentSelection
 {
-    public Headgear Head;
-    public Bodygear Armour;
-    public ArmGear Braces;
-    public Accessory Accessory;
-    public Bootgear Bootgear;
+    public Equipment Head;
+    public Equipment Armour;
+    public Equipment Braces;
+    public Equipment Accessory;
+    public Equipment Bootgear;
 
     public Weapon_Melee Sword;
     public Weapon_Melee Hammer;

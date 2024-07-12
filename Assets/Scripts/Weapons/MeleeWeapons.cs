@@ -13,7 +13,7 @@ public class MeleeWeapons : MonoBehaviour
 
     public Player_Stats Stats;
 
-    List<GameObject> EnemiesHit;
+    public List<GameObject> EnemiesHit;
     void Update()
     {
         if (AttackCDTimer >= 0 && Attacking == false)
