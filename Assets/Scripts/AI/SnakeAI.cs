@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 
 enum SnakeType
@@ -38,6 +37,8 @@ public class SnakeAI : MonoBehaviour
     public GameObject SnakeItem;
 
     [SerializeField] SnakeType snakeType;
+
+    public Animator animator;
 
     private State state = State.Wander;
 
@@ -74,6 +75,7 @@ public class SnakeAI : MonoBehaviour
                 break;
 
             case State.Following:
+                animator.SetTrigger("Return");
                 snake.destination = goal.position;
                 MoveToTarget();
                 attackTime += Time.deltaTime;
@@ -82,6 +84,7 @@ public class SnakeAI : MonoBehaviour
                     state = State.ReadyAttack;
                     attackTime = 0;
                     attackPos = goal.position;
+                    animator.SetTrigger("LungePrep");
                 }
                 break;
 
@@ -102,6 +105,10 @@ public class SnakeAI : MonoBehaviour
         switch (snakeType)
         {
             case SnakeType.DashSnake:
+                if (attackTime == 0)
+                {
+                    Destroy(Instantiate(SnakeItem, transform), 0.5f);
+                }
                 transform.position += transform.forward * moveSpeed * Time.deltaTime * 2;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
@@ -114,7 +121,16 @@ public class SnakeAI : MonoBehaviour
             case SnakeType.DivebombSnake:
                 if (attackTime == 0)
                 {
-                    StartCoroutine(MoveInArc(goal.position, 1.5f));
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, transform.up * -1, out hit) && hit.collider.gameObject.layer  == LayerMask.NameToLayer("Ground"))
+                    {
+                        StartCoroutine(MoveInArc(new Vector3(goal.position.x,hit.collider.transform.position.y,goal.position.z), 1.5f));
+                    } 
+                    else
+                    {
+                        StartCoroutine(MoveInArc(goal.position, 1.5f));
+                    }
+                    
                 }
                 attackTime += Time.deltaTime;
                 break;
@@ -127,6 +143,7 @@ public class SnakeAI : MonoBehaviour
                     Spit.transform.SetPositionAndRotation(transform.position, transform.rotation);
                     rb.velocity += Spit.transform.forward * 10 + Spit.transform.up * 10;
                 }
+                transform.position += transform.forward * moveSpeed * Time.deltaTime * -1.3f;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
                 {
@@ -136,7 +153,11 @@ public class SnakeAI : MonoBehaviour
                 break;
 
             case SnakeType.Constrictor:
-                transform.position += transform.forward * moveSpeed * Time.deltaTime * 2;
+                if (attackTime == 0)
+                {
+                    Destroy(Instantiate(SnakeItem, transform), 1);
+                }
+                transform.position += transform.forward * moveSpeed * Time.deltaTime * 3;
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
                 {
@@ -146,9 +167,9 @@ public class SnakeAI : MonoBehaviour
                 break;
 
             case SnakeType.SlamSnake:
-                if (CheckDistance(10, goal.position) && attackTime == 0)
+                if (CheckDistance(attackDistance + 1.2f, goal.position) && attackTime == 0)
                 {
-                    goal.GetComponent<Rigidbody>().velocity += transform.forward * 3 + transform.up * 3;
+                    goal.GetComponent<Rigidbody>().velocity += transform.forward * 10 + transform.up * 5;
                 }
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
@@ -163,12 +184,16 @@ public class SnakeAI : MonoBehaviour
 
     void readyAttack()
     {
+        transform.position += transform.forward * moveSpeed * Time.deltaTime * -0.1f;
         attackTime += Time.deltaTime;
+        Vector3 direction = (goal.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed * 3);
         if (attackTime > attackWindUp)
         {
-            transform.LookAt(attackPos);
             state = State.Attack;
             attackTime = 0;
+            animator.SetTrigger("Lunge");
         }
     }
 
@@ -213,7 +238,7 @@ public class SnakeAI : MonoBehaviour
 
         while (timer < duration)
         {
-            // Increment the timer by the time passed since last frame
+            // Increment the timer by the time passed since the last frame
             timer += Time.deltaTime;
             // Calculate the fraction of the journey completed
             float fraction = timer / duration;
@@ -222,14 +247,37 @@ public class SnakeAI : MonoBehaviour
             Vector3 currentPosition = Vector3.Lerp(startPosition, destination, fraction);
 
             // Add the arc height based on the sine of the fraction of the journey completed
-            currentPosition.y += Mathf.Sin(fraction * Mathf.PI) * 10;
+            currentPosition.y += Mathf.Sin(fraction * Mathf.PI) * 5;
+
+            // Calculate the direction of movement
+            Vector3 direction = (currentPosition - transform.position).normalized;
 
             // Apply the calculated position
             transform.position = currentPosition;
 
-            // Wait until next frame
+            // Update the rotation to face the direction of movement with an interpolation between up and down
+            if (direction != Vector3.zero)
+            {
+                Quaternion startRotation = Quaternion.LookRotation(direction) * Quaternion.Euler(45, 0, 0); // Initial upward tilt
+                Quaternion endRotation = Quaternion.LookRotation(direction) * Quaternion.Euler(155, 0, 0); // Final downward tilt
+                transform.rotation = Quaternion.Slerp(startRotation, endRotation, fraction);
+            }
+
+            // Wait until the next frame
             yield return null;
         }
         transform.position = destination;
+
+        if (CheckDistance(5, goal.position))
+        {
+            Vector3 dir = (transform.position - goal.position).normalized;
+            goal.GetComponent<Rigidbody>().velocity += dir * -15 + transform.up * 5;
+        }
+        GameObject exp = Instantiate(SnakeItem);
+        exp.transform.position = transform.position;
+        Destroy(exp, 1);
+        Destroy(gameObject);
     }
+
 }
+
