@@ -21,12 +21,14 @@ public class Player_Stats : MonoBehaviour
     [Range(0, 100)]
     public int CritChance;
     public float CritMult;
-    
 
+    public GameObject Snakes;
+    
 
     Player_Movement Movement;
     
     private float Timer;
+    private int StuggleAmount;
     public float StatusEffectTimer;
     public enum EffectState { NONE, POISONED, STUNNED};
     public EffectState moveState;
@@ -41,6 +43,18 @@ public class Player_Stats : MonoBehaviour
     void Update()
     {
         CheckForStatus();
+        if (moveState == EffectState.STUNNED)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                StuggleAmount--;
+            }
+            if (StuggleAmount <= 0) 
+            { 
+                moveState = EffectState.NONE;
+                Snakes.SetActive(false);
+            }
+        }
     }
 
 
@@ -58,6 +72,7 @@ public class Player_Stats : MonoBehaviour
                         Health -= 10;
                         return true;
                     case EffectState.STUNNED:
+                        Health -= 15;
                         Movement.StatusSlow /= 2;
                         if (Movement.StatusSlow.x < 0.125)
                         {
@@ -85,6 +100,8 @@ public class Player_Stats : MonoBehaviour
             Timer = StatusEffectTimer;
             Movement.StatusSlow /= 2;
             moveState = EffectState.STUNNED;
+            Snakes.SetActive(true);
+            StuggleAmount = 8;
         }
     }
     private void OnTriggerExit(Collider other)
