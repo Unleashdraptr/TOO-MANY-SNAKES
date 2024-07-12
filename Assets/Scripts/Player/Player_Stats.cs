@@ -44,17 +44,20 @@ public class Player_Stats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckForStatus();
-        if (moveState == EffectState.STUNNED)
+        if (!GameManager.Pause)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            CheckForStatus();
+            if (moveState == EffectState.STUNNED)
             {
-                StuggleAmount--;
-            }
-            if (StuggleAmount <= 0) 
-            { 
-                moveState = EffectState.NONE;
-                Snakes.SetActive(false);
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    StuggleAmount--;
+                }
+                if (StuggleAmount <= 0)
+                {
+                    moveState = EffectState.NONE;
+                    Snakes.SetActive(false);
+                }
             }
         }
     }

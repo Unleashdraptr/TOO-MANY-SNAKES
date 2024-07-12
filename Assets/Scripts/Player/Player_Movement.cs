@@ -33,8 +33,6 @@ public class Player_Movement : MonoBehaviour
         //Set the state to idle
         moveState = MoveState.IDLE;
         //Hide the cursor and get the rigidbody on the player when first starting
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         rb = transform.GetComponent<Rigidbody>();
         Stats = transform.GetChild(0).GetComponent<Player_Stats>();
         Speed = Stats.Speed;
@@ -42,82 +40,88 @@ public class Player_Movement : MonoBehaviour
     //Update once a frame
     void Update()
     {
-        //Gets the movement input and then runs its function
-        PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        //Checks if the player is moving and if not to go to Idle
-        if (PlayerMoveInput.Equals(default))
+        if (!GameManager.Pause)
         {
-            moveState = MoveState.IDLE;
-        }
-        //Gets the camera's input and run its function
-        CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        MovePlayerCamera();
-        //Stamina Ending and Recharging
-        if (Stamina <= 0)
-        {
-            //Checks what the player is currently doing to get the correct state
+            //Gets the movement input and then runs its function
+            PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            //Checks if the player is moving and if not to go to Idle
             if (PlayerMoveInput.Equals(default))
             {
                 moveState = MoveState.IDLE;
             }
+            //Gets the camera's input and run its function
+            CameraMoveInput = new(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            MovePlayerCamera();
+            //Stamina Ending and Recharging
+            if (Stamina <= 0)
+            {
+                //Checks what the player is currently doing to get the correct state
+                if (PlayerMoveInput.Equals(default))
+                {
+                    moveState = MoveState.IDLE;
+                }
+                else
+                    moveState = MoveState.WALK;
+            }
+            //Recharging if not running or is not currently full
+            if (Stamina < 100 && moveState != MoveState.DASH)
+            {
+                Stamina += 15 * Time.deltaTime;
+            }
+            //Jump Function
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                //Check if the feet GameObject are on the ground that has a layer called 'Ground'
+                if (Physics.CheckSphere(Feet.position, 0.1f, FloorMask))
+                {
+                    Jump();
+                }
+            }
+            //Dash Function
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Stamina > 20)
+            {
+                //checks if the player is walking or not
+                if (moveState == MoveState.WALK)
+                {
+                    moveState = MoveState.DASH;
+                }
+                else
+                    moveState = MoveState.WALK;
+            }
+            //If they arent dashing, then check if they're sneaking
+            else if (Input.GetKey(KeyCode.LeftControl) == true)
+            {
+                moveState = MoveState.SNEAK;
+            }
+            //If not then reset the sneak bools
             else
-                moveState = MoveState.WALK;
-        }
-        //Recharging if not running or is not currently full
-        if (Stamina < 100 && moveState != MoveState.DASH)
-        {
-            Stamina += 15 * Time.deltaTime;
-        }
-        //Jump Function
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //Check if the feet GameObject are on the ground that has a layer called 'Ground'
-            if (Physics.CheckSphere(Feet.position, 0.1f, FloorMask))
             {
-                Jump();
-            }
-        }
-        //Dash Function
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Stamina > 20)
-        {
-            //checks if the player is walking or not
-            if (moveState == MoveState.WALK)
-            {
-                moveState = MoveState.DASH;
-            }
-            else
-                moveState = MoveState.WALK;
-        }
-        //If they arent dashing, then check if they're sneaking
-        else if (Input.GetKey(KeyCode.LeftControl) == true)
-        {
-            moveState = MoveState.SNEAK;
-        }
-        //If not then reset the sneak bools
-        else
-        {
-            if (PlayerMoveInput.Equals(default))
-            {
-                moveState = MoveState.IDLE;
-            }
-            else if (moveState != MoveState.DASH)
-            {
-                moveState = MoveState.WALK;
+                if (PlayerMoveInput.Equals(default))
+                {
+                    moveState = MoveState.IDLE;
+                }
+                else if (moveState != MoveState.DASH)
+                {
+                    moveState = MoveState.WALK;
+                }
             }
         }
     }
     //FixedUpdate can run multiple times per frame
     private void FixedUpdate()
     {
-        //Run the Physics calculations
-        MovePlayer();
-        if(!Stats.CheckForStatus() && StatusSlow.x < 1)
+        if (!GameManager.Pause)
         {
-            StatusSlow *= 1.025f;
-            if(StatusSlow.x > 1)
+            //Run the Physics calculations
+            MovePlayer();
+            if (!Stats.CheckForStatus() && StatusSlow.x < 1)
             {
-                StatusSlow = new Vector3(1, 1, 1);
-            }    
+                StatusSlow *= 1.025f;
+                if (StatusSlow.x > 1)
+                {
+                    StatusSlow = new Vector3(1, 1, 1);
+                }
+            }
         }
     }
     void Jump()

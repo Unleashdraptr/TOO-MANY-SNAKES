@@ -60,42 +60,50 @@ public class SnakeAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (state)
+        if(GameManager.Pause)
         {
-            case State.Wander:
-                if (CheckDistance(wanderFindDistance, goal.position))
-                {
-                    state = State.Following;
-                }
-                if (CheckDistance(5, snake.destination))
-                {
-                    SetRandomGoal();
-                }
-                MoveToTarget();
-                break;
+            snake.speed = 0;
+        }
+        if (!GameManager.Pause)
+        {
+            snake.speed = moveSpeed;
+            switch (state)
+            {
+                case State.Wander:
+                    if (CheckDistance(wanderFindDistance, goal.position))
+                    {
+                        state = State.Following;
+                    }
+                    if (CheckDistance(5, snake.destination))
+                    {
+                        SetRandomGoal();
+                    }
+                    MoveToTarget();
+                    break;
 
-            case State.Following:
-                animator.SetTrigger("Return");
-                snake.destination = goal.position;
-                MoveToTarget();
-                attackTime += Time.deltaTime;
-                if (CheckDistance(attackDistance, goal.position) && attackTime > 1)
-                {
-                    state = State.ReadyAttack;
-                    attackTime = 0;
-                    attackPos = goal.position;
-                    animator.SetTrigger("LungePrep");
-                }
-                break;
+                case State.Following:
+                    animator.SetTrigger("Return");
+                    snake.destination = goal.position;
+                    MoveToTarget();
+                    attackTime += Time.deltaTime;
+                    if (CheckDistance(attackDistance, goal.position) && attackTime > 1)
+                    {
+                        state = State.ReadyAttack;
+                        attackTime = 0;
+                        attackPos = goal.position;
+                        animator.SetTrigger("LungePrep");
+                    }
+                    break;
 
-            case State.ReadyAttack:
-                readyAttack();
-                break;
+                case State.ReadyAttack:
+                    readyAttack();
+                    break;
 
-            case State.Attack:
-                attack();
-                break;
+                case State.Attack:
+                    attack();
+                    break;
 
+            }
         }
 
     }

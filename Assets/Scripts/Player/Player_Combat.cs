@@ -25,39 +25,42 @@ public class Player_Combat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SwapDelay > 0)
-            SwapDelay -= Time.deltaTime;
-
-        if (!GetComponent<MeleeWeapons>().Attacking && !GetComponent<RangedWeapons>().isDrawing)
+        if (!GameManager.Pause)
         {
-            if (Input.GetMouseButtonUp(1) && Shielding == true)
+            if (SwapDelay > 0)
+                SwapDelay -= Time.deltaTime;
+
+            if (!GetComponent<MeleeWeapons>().Attacking && !GetComponent<RangedWeapons>().isDrawing)
             {
-                Movement.ShieldSlow *= 4;
-                Shielding = false;
-                Weapons.SetBool("IsShielding", Shielding);
-            }
-            else if (Input.GetMouseButton(1) && (int)weaponState < 2 && Shielding == false)
-            {
-                Movement.ShieldSlow /= 4;
-                Shielding = true;
-                Weapons.SetBool("IsShielding", Shielding);
-            }
-            
-            if (Input.mouseScrollDelta.y != 0 && SwapDelay <= 0)
-            {
-                if (Input.mouseScrollDelta.y < 0)
+                if (Input.GetMouseButtonUp(1) && Shielding == true)
                 {
-                    weaponState -= (WeaponState)1;
-                    if (weaponState < 0)
-                        weaponState = (WeaponState)3;
+                    Movement.ShieldSlow *= 4;
+                    Shielding = false;
+                    Weapons.SetBool("IsShielding", Shielding);
                 }
-                if (Input.mouseScrollDelta.y > 0)
+                else if (Input.GetMouseButton(1) && (int)weaponState < 2 && Shielding == false)
                 {
-                    weaponState += 1;
-                    if (weaponState > (WeaponState)3)
-                        weaponState = 0;
+                    Movement.ShieldSlow /= 4;
+                    Shielding = true;
+                    Weapons.SetBool("IsShielding", Shielding);
                 }
-                SwapWeapon();
+
+                if (Input.mouseScrollDelta.y != 0 && SwapDelay <= 0)
+                {
+                    if (Input.mouseScrollDelta.y < 0)
+                    {
+                        weaponState -= (WeaponState)1;
+                        if (weaponState < 0)
+                            weaponState = (WeaponState)3;
+                    }
+                    if (Input.mouseScrollDelta.y > 0)
+                    {
+                        weaponState += 1;
+                        if (weaponState > (WeaponState)3)
+                            weaponState = 0;
+                    }
+                    SwapWeapon();
+                }
             }
         }
     }

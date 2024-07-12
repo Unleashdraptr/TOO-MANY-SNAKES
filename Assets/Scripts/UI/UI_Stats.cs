@@ -28,7 +28,6 @@ public class UI_Stats : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && MenuState(IsInMenu))
         {
-            GameManager.Pause = true;
             EquipmentList = new List<Equipment>
             {
                 stats.Equipables.Head,
@@ -54,12 +53,14 @@ public class UI_Stats : MonoBehaviour
 
     bool MenuState(bool Menu)
     {
-        if(Menu)
+        if (Menu)
         {
             transform.GetChild(0).localScale = Vector3.one;
         }
         else
+        {
             transform.GetChild(0).localScale = Vector3.zero;
+        }
         return Menu;
     }
     float CalculateStats(ModifierType modifier)
