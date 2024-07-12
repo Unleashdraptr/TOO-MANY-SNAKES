@@ -32,6 +32,8 @@ public class Player_Stats : MonoBehaviour
     public float StatusEffectTimer;
     public enum EffectState { NONE, POISONED, STUNNED};
     public EffectState moveState;
+
+    public bool Death;
     // Start is called before the first frame update
     void Start()
     {

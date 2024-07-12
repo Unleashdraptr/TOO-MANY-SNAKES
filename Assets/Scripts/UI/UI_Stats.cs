@@ -28,6 +28,7 @@ public class UI_Stats : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && MenuState(IsInMenu))
         {
+            GameManager.Pause = true;
             EquipmentList = new List<Equipment>
             {
                 stats.Equipables.Head,
