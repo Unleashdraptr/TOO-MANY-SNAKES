@@ -9,10 +9,13 @@ public class EnemyStats : MonoBehaviour
 
     public int Defense;
 
+    public GameObject DeathEffect;
+
     public void DeathCheck()
     { 
         if (Health <= 0)
         {
+            Destroy(Instantiate(DeathEffect,transform.position,Quaternion.identity),1);
             Destroy(gameObject);
         }
     }

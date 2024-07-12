@@ -88,7 +88,7 @@ public class Player_Stats : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Poisoned"))
+        if (other.gameObject.CompareTag("Poisoned") && moveState != EffectState.STUNNED)
         {
             Timer = StatusEffectTimer;
             Health -= 10;
