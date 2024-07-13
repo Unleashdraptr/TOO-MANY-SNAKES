@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -178,6 +179,7 @@ public class SnakeAI : MonoBehaviour
                 if (CheckDistance(attackDistance + 1.2f, goal.position) && attackTime == 0)
                 {
                     goal.GetComponent<Rigidbody>().velocity += transform.forward * 10 + transform.up * 5;
+                    goal.GetChild(0).GetComponent<Player_Stats>().TakeDmg(GetComponent<EnemyStats>().Attack);
                 }
                 attackTime += Time.deltaTime;
                 if (attackTime > 1)
@@ -280,6 +282,9 @@ public class SnakeAI : MonoBehaviour
         {
             Vector3 dir = (transform.position - goal.position).normalized;
             goal.GetComponent<Rigidbody>().velocity += dir * -15 + transform.up * 5;
+            float dmg = 120 - (Vector3.Distance(transform.position, goal.position)/5 * 100);
+            dmg = Mathf.Round(GetComponent<EnemyStats>().Attack * dmg / 100);
+            goal.GetChild(0).GetComponent<Player_Stats>().TakeDmg(dmg);
         }
         GameObject exp = Instantiate(SnakeItem);
         exp.transform.position = transform.position;

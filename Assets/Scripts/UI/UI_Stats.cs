@@ -12,21 +12,21 @@ public class UI_Stats : MonoBehaviour
     Player_Stats stats;
     Transform PlayerItems;
     Transform Stats;
-    public List <Equipment> EquipmentList;
+    List <Equipment> EquipmentList;
     // Start is called before the first frame update
     void Start()
     {
         IsInMenu = false;
         MenuState(IsInMenu);     
         stats = GameObject.Find("Player").GetComponent<Player_Stats>();
-        PlayerItems = transform.GetChild(0).GetChild(1).GetChild(0);
         Stats = transform.GetChild(0).GetChild(2).GetChild(0);
+        PlayerItems = transform.GetChild(0).GetChild(1).GetChild(0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && MenuState(IsInMenu))
+        if(Input.GetKeyDown(KeyCode.E) && MenuState(IsInMenu) || stats.Death && MenuState(IsInMenu))
         {
             EquipmentList = new List<Equipment>
             {

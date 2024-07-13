@@ -44,7 +44,7 @@ public class Player_Stats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Pause)
+        if (!GameManager.Pause && !Death)
         {
             CheckForStatus();
             if (moveState == EffectState.STUNNED)
@@ -61,8 +61,24 @@ public class Player_Stats : MonoBehaviour
             }
         }
     }
-
-
+    public void TakeDmg(float attack)
+    {
+        float Dmg = attack - Defense;
+        if (Dmg <= 0)
+            Dmg = 1;
+        Health -= Dmg;
+        Death = DeathCheck();
+    }
+    public bool DeathCheck()
+    {
+        if (Health <= 0)
+        {
+            GameManager.Pause = true;
+            return true;
+        }
+        else
+            return false;
+    }
     public bool CheckForStatus()
     {
         if (moveState != EffectState.NONE)
@@ -75,6 +91,7 @@ public class Player_Stats : MonoBehaviour
                 {
                     case EffectState.POISONED:
                         Health -= 10;
+                        Death = DeathCheck();
                         return true;
                     case EffectState.STUNNED:
                         Health -= 15;
@@ -95,8 +112,7 @@ public class Player_Stats : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Poisoned") && moveState != EffectState.STUNNED)
         {
-            Timer = StatusEffectTimer;
-            Health -= 10;
+            Death = DeathCheck();
             moveState = EffectState.POISONED;
         }
 

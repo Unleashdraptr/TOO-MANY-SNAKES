@@ -114,9 +114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f455b7cefaa6ed54982e39c2c4da2d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 40
-  MaxHealth: 40
-  Defense: 0
+  Health: 25
+  MaxHealth: 25
+  Attack: 3
+  Defense: 1
   DeathEffect: {fileID: 6562095124795231337, guid: 9106467357e2cc84d9f2b25467ffd133, type: 3}
 --- !u!1001 &8858587006518694490
 PrefabInstance:

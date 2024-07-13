@@ -40,7 +40,7 @@ public class Player_Movement : MonoBehaviour
     //Update once a frame
     void Update()
     {
-        if (!GameManager.Pause)
+        if (!GameManager.Pause && !Stats.Death)
         {
             //Gets the movement input and then runs its function
             PlayerMoveInput = new(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -110,7 +110,7 @@ public class Player_Movement : MonoBehaviour
     //FixedUpdate can run multiple times per frame
     private void FixedUpdate()
     {
-        if (!GameManager.Pause)
+        if (!GameManager.Pause && !Stats.Death)
         {
             //Run the Physics calculations
             MovePlayer();

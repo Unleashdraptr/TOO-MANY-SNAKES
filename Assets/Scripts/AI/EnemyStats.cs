@@ -7,6 +7,7 @@ public class EnemyStats : MonoBehaviour
     public float Health;
     public float MaxHealth;
 
+    public int Attack;
     public int Defense;
 
     public GameObject DeathEffect;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Equipment : Item
 {
     
-    public enum ModifierType { None, Health, Attack, Defense, HealMult, DodgeChance, CritChance, CritMult }
+    public enum ModifierType { None, MaxHealth, Attack, Defense, HealMult, DodgeChance, CritChance, CritMult }
     public enum EquipmentType { None, Head, Body, Arm, Boots, Weapon }
     public enum WeaponType { None, Sword, Melee, Hammer, Bow }
 

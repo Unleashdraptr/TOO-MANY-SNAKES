@@ -116,7 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 75
   MaxHealth: 75
-  Defense: 0
+  Attack: 5
+  Defense: 10
   DeathEffect: {fileID: 6562095124795231337, guid: 9106467357e2cc84d9f2b25467ffd133, type: 3}
 --- !u!1001 &7700417024228090598
 PrefabInstance:
