@@ -28,7 +28,6 @@ public class SnakeAI : MonoBehaviour
     public Transform goal;
     public float moveSpeed;
     public float turnSpeed;
-    public float turnAmount;
     public float wanderRadius;
     public float wanderFindDistance;
 
