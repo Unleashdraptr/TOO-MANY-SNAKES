@@ -79,9 +79,9 @@ public class Player_Stats : MonoBehaviour
             if (Dmg <= 0)
                 Dmg = 1;
             Shield.ShieldHealth -= Mathf.Round((Dmg / 100) * 80);
-            if(Shield.ShieldHealth < 0)
+            Shield.ShieldHealthCheck();
+            if (Shield.ShieldHealth < 0)
             {
-                Debug.Log(Shield.ShieldHealth);
                 Health += Shield.ShieldHealth;
                 Shield.ShieldHealth = 0;
             }

@@ -102,6 +102,7 @@ public class Player_Combat : MonoBehaviour
     {
         if(ShieldHealth <= 0)
         {
+            Movement.ShieldSlow *= 4;
             Weapons.SetBool("ShieldBroke", true);
             Shielding = false;
             Weapons.SetBool("IsShielding", Shielding);

@@ -5,6 +5,7 @@ using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class UIManager : MonoBehaviour
     Transform Tooltips;
     int deathTooltip;
 
-    public TextMeshProUGUI ShieldHealth;
+    public Transform Shield;
     void Start()
     {
         deathTooltip = Random.Range(0, transform.GetChild(0).GetChild(2).GetChild(6).childCount);
@@ -31,8 +32,9 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ShieldHealth.text = Mathf.RoundToInt(Combat.ShieldHealth).ToString();
-        if(GameManager.Pause)
+        Shield.GetChild(0).GetComponent<TextMeshProUGUI>().text = Mathf.RoundToInt(Combat.ShieldHealth).ToString();
+        Shield.GetChild(1).GetComponent<Slider>().value = Mathf.RoundToInt(Combat.ShieldHealth);
+        if (GameManager.Pause)
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
