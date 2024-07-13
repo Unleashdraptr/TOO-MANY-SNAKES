@@ -24,8 +24,6 @@ public class Player_Stats : MonoBehaviour
     public int CritChance;
     public float CritMult;
 
-    public int Gold;
-
     public GameObject Snakes;
     
 
