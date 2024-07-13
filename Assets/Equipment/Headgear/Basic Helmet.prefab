@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: 0
-  Name: 
+  Name: Basic Helmet
   BuyPrice: 0
   SellPrice: 0
   UISprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
