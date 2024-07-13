@@ -10,6 +10,8 @@ public class Player_Stats : MonoBehaviour
     public float Health;
     public float MaxHealth;
 
+    public int Gold;
+
     public EquipmentSelection Equipables;
     
     public int Attack;

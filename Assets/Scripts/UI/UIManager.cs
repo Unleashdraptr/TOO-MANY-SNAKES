@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(GameManager.Level);
         if(GameManager.Pause)
         {
             Cursor.lockState = CursorLockMode.Confined;

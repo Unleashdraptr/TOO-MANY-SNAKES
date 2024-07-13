@@ -75,7 +75,9 @@ public class MeleeWeapons : MonoBehaviour
                 float Dmg = CheckWeaponType(other.gameObject);
                 EnemyStats Enemy = other.GetComponent<EnemyStats>();
                 Enemy.Health -= (Dmg - Enemy.Defense);
-                Enemy.DeathCheck();
+                int Gold = 0;
+                Enemy.DeathCheck(ref Gold);
+                Stats.Gold += Gold;
             }
         }
     }

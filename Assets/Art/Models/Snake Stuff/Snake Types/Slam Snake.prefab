@@ -118,6 +118,7 @@ MonoBehaviour:
   MaxHealth: 75
   Attack: 5
   Defense: 10
+  GoldDropped: 75
   DeathEffect: {fileID: 6562095124795231337, guid: 9106467357e2cc84d9f2b25467ffd133, type: 3}
 --- !u!1001 &7700417024228090598
 PrefabInstance:
