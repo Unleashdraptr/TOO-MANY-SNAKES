@@ -17,10 +17,16 @@ public class ProjectileCollision : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
+            Player_Stats stats = GameObject.Find("Player").GetComponent<Player_Stats>();
             int Gold = 0;
-            other.GetComponent<EnemyStats>().Health -= (Vector3.Magnitude(GetComponent<Rigidbody>().velocity)/2)- other.GetComponent<EnemyStats>().Defense; 
+            float Dmg = (Vector3.Magnitude(GetComponent<Rigidbody>().velocity) / 2) - other.GetComponent<EnemyStats>().Defense;
+            if (Random.Range(1,100) < stats.CritChance)
+            {
+                Dmg *= stats.CritMult;
+            }
+            other.GetComponent<EnemyStats>().Health -= Dmg; 
             other.GetComponent<EnemyStats>().DeathCheck(ref Gold);
-            GameObject.Find("Player").GetComponent<Player_Stats>().Gold += Gold;
+            stats.Gold += Gold;
             Destroy(gameObject);
         }
         else if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))

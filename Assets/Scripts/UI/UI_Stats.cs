@@ -13,6 +13,7 @@ public class UI_Stats : MonoBehaviour
     Transform PlayerItems;
     Transform Stats;
     List <Equipment> EquipmentList;
+    public TextMeshProUGUI Gold;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +49,7 @@ public class UI_Stats : MonoBehaviour
             {
                 Stats.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = CalculateStats((ModifierType)i+1).ToString();
             }
+            Gold.text = "GOLD: " + stats.Gold.ToString();
         }
     }
 

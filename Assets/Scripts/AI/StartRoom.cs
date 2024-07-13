@@ -12,9 +12,12 @@ public class StartRoom : MonoBehaviour
     private GameObject player;
     private void OnTriggerEnter(Collider other)
     {
-        player = other.gameObject;
-        SpawnSnakes();
-        Destroy(gameObject);
+        if (other.transform.CompareTag("Player"))
+        {
+            player = other.gameObject;
+            SpawnSnakes();
+            Destroy(gameObject);
+        }
     }
 
     void SpawnSnakes()

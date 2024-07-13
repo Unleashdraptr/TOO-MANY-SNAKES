@@ -8,7 +8,7 @@ public class MeleeWeapons : MonoBehaviour
     public BoxCollider[] colliders;
 
     public bool Attacking;
-    float AttackCDTimer;
+    public float AttackCDTimer;
     float SwingTimeTimer;
 
     public Player_Stats Stats;
@@ -74,6 +74,10 @@ public class MeleeWeapons : MonoBehaviour
                 EnemiesHit.Add(other.gameObject);
                 float Dmg = CheckWeaponType(other.gameObject);
                 EnemyStats Enemy = other.GetComponent<EnemyStats>();
+                if(Random.Range(1,100) < Stats.CritChance)
+                {
+                    Dmg *= Stats.CritMult;
+                }
                 Enemy.Health -= (Dmg - Enemy.Defense);
                 int Gold = 0;
                 Enemy.DeathCheck(ref Gold);

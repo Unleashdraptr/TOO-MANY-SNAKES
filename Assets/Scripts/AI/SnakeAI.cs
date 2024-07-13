@@ -97,11 +97,11 @@ public class SnakeAI : MonoBehaviour
                     break;
 
                 case State.ReadyAttack:
-                    readyAttack();
+                    ReadyAttack();
                     break;
 
                 case State.Attack:
-                    attack();
+                    Attack();
                     break;
 
             }
@@ -109,7 +109,7 @@ public class SnakeAI : MonoBehaviour
 
     }
 
-    void attack()
+    void Attack()
     {
         switch (snakeType)
         {
@@ -192,7 +192,7 @@ public class SnakeAI : MonoBehaviour
     }
 
 
-    void readyAttack()
+    void ReadyAttack()
     {
         transform.position += transform.forward * moveSpeed * Time.deltaTime * -0.1f;
         attackTime += Time.deltaTime;

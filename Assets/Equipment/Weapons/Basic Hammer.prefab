@@ -49,6 +49,15 @@ MonoBehaviour:
   BuyPrice: 10
   SellPrice: 5
   UISprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  equipment: 0
+  weapon: 0
+  Defense: 0
+  FirstMod: 0
+  FirstModifier: 0
+  SecondMod: 0
+  SecondModifier: 0
+  ThirdMod: 0
+  ThirdModifier: 0
   Damage: 25
-  SwingSpeed: 0.8
+  SwingSpeed: 1.5
   Recharge: 4

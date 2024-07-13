@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class RangedWeapons : MonoBehaviour
 {
-    float AttackCDTimer;
+    public float AttackCDTimer;
 
     public bool isDrawing;
-    float Power;
+    public float Power;
 
     public Player_Stats Stats;
     public Transform ProjectileSpawnLocation;
