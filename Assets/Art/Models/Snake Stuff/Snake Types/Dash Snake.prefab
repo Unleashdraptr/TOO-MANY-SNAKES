@@ -4944,7 +4944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
-  MaxHealth: 1
+  MaxHealth: 10
   Attack: 25
   Defense: 5
   GoldDropped: 50

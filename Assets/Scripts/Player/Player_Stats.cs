@@ -28,7 +28,8 @@ public class Player_Stats : MonoBehaviour
     
 
     Player_Movement Movement;
-    
+    public Player_Combat Shield;
+
     private float Timer;
     private int StuggleAmount;
     public float StatusEffectTimer;
@@ -65,11 +66,29 @@ public class Player_Stats : MonoBehaviour
     }
     public void TakeDmg(float attack)
     {
-        float Dmg = attack - Defense;
-        if (Dmg <= 0)
-            Dmg = 1;
-        Health -= Dmg;
-        Death = DeathCheck();
+        if (!Shield.Shielding)
+        {
+            float Dmg = attack - Defense;
+            if (Dmg <= 0)
+                Dmg = 1;
+            Health -= Dmg;
+        }
+        if(Shield.Shielding)
+        {
+            float Dmg = attack - Defense;
+            if (Dmg <= 0)
+                Dmg = 1;
+            Shield.ShieldHealth -= Mathf.Round((Dmg / 100) * 80);
+            if(Shield.ShieldHealth < 0)
+            {
+                Debug.Log(Shield.ShieldHealth);
+                Health += Shield.ShieldHealth;
+                Shield.ShieldHealth = 0;
+            }
+            Health -= Mathf.Round((Dmg/100) * 20);
+            
+        }
+            Death = DeathCheck();
     }
     public bool DeathCheck()
     {

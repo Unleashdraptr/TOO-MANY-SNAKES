@@ -1350,67 +1350,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106669544}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &115498237
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4177388603464032710, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_Name
-      value: Spitter Snake
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 14.244567
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.0000076293945
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -14.933571
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5502320321336277404, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7147258296185397918, guid: d2587d08ba15c01408742461b936810e, type: 3}
-      propertyPath: goal
-      value: 
-      objectReference: {fileID: 35530671}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d2587d08ba15c01408742461b936810e, type: 3}
 --- !u!1 &162402855
 GameObject:
   m_ObjectHideFlags: 0
@@ -4661,6 +4600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CompletedLevel: 0
+  ShieldHealth: {fileID: 1880296746}
 --- !u!1 &849268511
 GameObject:
   m_ObjectHideFlags: 0
@@ -7244,6 +7184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Shielding: 0
+  ShieldHealth: 10
   Weapons: {fileID: 78060523}
   weaponState: 0
 --- !u!1 &1267761810
@@ -8161,6 +8102,7 @@ MonoBehaviour:
   CritChance: 33
   CritMult: 1
   Snakes: {fileID: 1245138565}
+  Shield: {fileID: 1252221064}
   StatusEffectTimer: 3
   moveState: 0
   Death: 0
@@ -9078,7 +9020,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1472573065
 MonoBehaviour:
@@ -9828,6 +9770,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586822134}
   m_CullTransparentMesh: 1
+--- !u!1001 &1588477998
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 273459902998615831, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_Name
+      value: Dive Bomb Snake
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -32.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5408192507896445032, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762600687898979354, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
+      propertyPath: goal
+      value: 
+      objectReference: {fileID: 35530671}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
 --- !u!1 &1595594040
 GameObject:
   m_ObjectHideFlags: 0
@@ -10906,7 +10909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1826455555}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19381,4 +19384,4 @@ SceneRoots:
   - {fileID: 830991805}
   - {fileID: 456052978}
   - {fileID: 1552803254}
-  - {fileID: 115498237}
+  - {fileID: 1588477998}

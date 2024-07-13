@@ -9,7 +9,7 @@ public class Player_Combat : MonoBehaviour
 
     float SwapDelay;
     public bool Shielding;
-
+    public float ShieldHealth;
     public Animator Weapons;
     public enum WeaponState { SWORD, HAMMER, MELEE, BOW };
     public WeaponState weaponState;
@@ -27,6 +27,10 @@ public class Player_Combat : MonoBehaviour
     {
         if (!GameManager.Pause)
         {
+            if (ShieldHealth < 250 && !Shielding)
+                ShieldHealth += 10 * Time.deltaTime;
+                if (ShieldHealth > 250)
+                    ShieldHealth = 250;
             if (SwapDelay > 0)
                 SwapDelay -= Time.deltaTime;
 
@@ -38,8 +42,9 @@ public class Player_Combat : MonoBehaviour
                     Shielding = false;
                     Weapons.SetBool("IsShielding", Shielding);
                 }
-                else if (Input.GetMouseButton(1) && (int)weaponState < 2 && Shielding == false)
+                else if (Input.GetMouseButton(1) && (int)weaponState < 2 && Shielding == false && ShieldHealth >= 50)
                 {
+                    Weapons.SetBool("ShieldBroke", false);
                     Movement.ShieldSlow /= 4;
                     Shielding = true;
                     Weapons.SetBool("IsShielding", Shielding);
@@ -91,5 +96,15 @@ public class Player_Combat : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         Weapons.SetInteger("Weapon", (int)weaponState);
         SwapDelay = 0.75f;
+    }
+
+    public void ShieldHealthCheck()
+    {
+        if(ShieldHealth <= 0)
+        {
+            Weapons.SetBool("ShieldBroke", true);
+            Shielding = false;
+            Weapons.SetBool("IsShielding", Shielding);
+        }
     }
 }

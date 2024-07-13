@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,15 +11,19 @@ public class UIManager : MonoBehaviour
     public bool CompletedLevel;
     UI_Stats statsUI;
     Player_Stats Stats;
+    Player_Combat Combat;
     GameObject HUD;
     Transform Tooltips;
     int deathTooltip;
+
+    public TextMeshProUGUI ShieldHealth;
     void Start()
     {
         deathTooltip = Random.Range(0, transform.GetChild(0).GetChild(2).GetChild(6).childCount);
         Tooltips = transform.GetChild(0).GetChild(3).GetChild(4).GetComponent<Transform>();
         HUD = transform.GetChild(1).gameObject;
         Stats = GameObject.Find("Player").GetComponent<Player_Stats>();
+        Combat = GameObject.Find("WeaponControls").GetComponent<Player_Combat>();
         statsUI = transform.GetChild(0).GetComponent<UI_Stats>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -26,6 +31,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ShieldHealth.text = Mathf.RoundToInt(Combat.ShieldHealth).ToString();
         if(GameManager.Pause)
         {
             Cursor.lockState = CursorLockMode.Confined;
