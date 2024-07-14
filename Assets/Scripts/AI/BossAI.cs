@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class BossAI : MonoBehaviour
     public float turnSpeed;
     public float wanderRadius;
     public float timeToSummon = 25f;
+    public NavMeshSurface navMeshSurface;
 
     public GameObject Snake;
     public GameObject Particle;
