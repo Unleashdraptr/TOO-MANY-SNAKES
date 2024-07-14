@@ -8836,14 +8836,14 @@ MonoBehaviour:
   MaxHealth: 150
   Gold: 100
   Equipables:
-    Head: {fileID: 7176787241427197066, guid: 9626812f57a48e04e84b81ac32ff794b, type: 3}
-    Armour: {fileID: 227007836900419185, guid: 322d407feb575f549afcd36cc0590fdd, type: 3}
+    Helmet: {fileID: 0}
+    Armour: {fileID: 0}
     Braces: {fileID: 5088915743108570123, guid: be710c7d70ebed34bbc697a7ec07305f, type: 3}
     Accessory: {fileID: 907318778043358416, guid: 049ca1c2b065dcf4e9d4fece2fb4b403, type: 3}
-    Bootgear: {fileID: 4836083014474469618, guid: 755e2c6ab2c72154fa72653837da6ec8, type: 3}
+    Boots: {fileID: 0}
     Sword: {fileID: 6939868166970830892, guid: 7ba893158fd4df340ad3b2c1a67a19e8, type: 3}
     Hammer: {fileID: 6912453822362807230, guid: 9cfb7e22cbca3ed42bcd3f58b16acc89, type: 3}
-    Gloves: {fileID: 3303391970747757235, guid: b78a8ffa3e365514f89a9da284b1aa93, type: 3}
+    Gauntlet: {fileID: 0}
     Bow: {fileID: 6867629523752243845, guid: f5cccd01741b635488e5b4889d6f853d, type: 3}
   Attack: 15
   Defense: 15
@@ -9454,7 +9454,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInMenu: 0
+  PlayerItems: {fileID: 0}
+  Stats: {fileID: 0}
   Gold: {fileID: 999139497}
+  ItemLookingAt: {fileID: 0}
 --- !u!1 &1428674294
 GameObject:
   m_ObjectHideFlags: 0
@@ -11012,7 +11015,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInMenu: 0
+  PlayerItems: {fileID: 0}
+  Stats: {fileID: 0}
   Gold: {fileID: 999139497}
+  ItemLookingAt: {fileID: 0}
 --- !u!1 &1605123454
 GameObject:
   m_ObjectHideFlags: 0
@@ -19544,6 +19550,10 @@ PrefabInstance:
       propertyPath: goal
       value: 
       objectReference: {fileID: 35530671}
+    - target: {fileID: 6324586878967714847, guid: 457333ca797faea4bb354b4b706c74c2, type: 3}
+      propertyPath: timeToSummon
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

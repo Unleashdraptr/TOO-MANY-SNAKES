@@ -40,12 +40,57 @@ public class ItemSlot : MonoBehaviour
     }
     public void DisplayItem()
     {
-        text.text = SelectedItem.Name + " ("+SelectedItem.BuyPrice.ToString()+"G)";
+        if (SelectedItem != null)
+        {
+            text.text = SelectedItem.Name + " (" + SelectedItem.BuyPrice.ToString() + "G)";
+        } 
     }
 
     void BuyItem(Player_Stats player)
     {
-        //do stuff
+        switch (SelectedItem.equipment)
+        {
+            case Equipment.EquipmentType.Helmet:
+                player.Equipables.Helmet = SelectedItem;
+                break;
+
+            case Equipment.EquipmentType.Armour:
+                player.Equipables.Armour = SelectedItem;
+                break;
+
+            case Equipment.EquipmentType.Boots:
+                player.Equipables.Boots = SelectedItem;
+                break;
+
+            case Equipment.EquipmentType.Braces:
+                player.Equipables.Braces = SelectedItem;
+                break;
+
+            case Equipment.EquipmentType.Accessory:
+                player.Equipables.Accessory = SelectedItem;
+                break;
+
+            case Equipment.EquipmentType.Weapon:
+                switch (SelectedItem.weapon)
+                {
+                    case Equipment.WeaponType.Bow:
+                        player.Equipables.Bow = (Weapon_Range)SelectedItem;
+                        break;
+
+                    case Equipment.WeaponType.Sword:
+                        player.Equipables.Sword = (Weapon_Melee)SelectedItem;
+                        break;
+
+                    case Equipment.WeaponType.Hammer:
+                        player.Equipables.Hammer = (Weapon_Melee)SelectedItem;
+                        break;
+                }
+                break;
+
+            default:
+                Debug.Log("Could Not Equip Item");
+                break;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -13,6 +13,7 @@ public class BossAI : MonoBehaviour
     public float moveSpeed;
     public float turnSpeed;
     public float wanderRadius;
+    public float timeToSummon = 25f;
 
     public GameObject Snake;
     public GameObject Particle;
@@ -36,7 +37,8 @@ public class BossAI : MonoBehaviour
     void Update()
     {
         Timer += Time.deltaTime;
-        if (Timer > 10){
+        if (Timer > timeToSummon)
+        {
             Timer = 0;
             for (int i = 0; i < 10; i++) luanchSnake();
             Particle.GetComponent<ParticleSystem>().Play();
