@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,25 +9,28 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public bool CompletedLevel;
-    UI_Stats statsUI;
     Player_Stats Stats;
     Player_Combat Combat;
-    GameObject HUD;
-    Transform Tooltips;
     int deathTooltip;
 
+
+    public Transform Death;
+    public UI_Stats statsUI;
+    public GameObject HUD;
+    public Transform LevelClear;
+    public Transform pause;
+
+    public Transform Tooltips;
+    
     public Transform Shield;
     public Transform Health;
     public Transform WeaponCD;
     public Transform BowPower;
     void Start()
     {
-        deathTooltip = Random.Range(0, transform.GetChild(0).GetChild(2).GetChild(5).childCount);
-        Tooltips = transform.GetChild(0).GetChild(3).GetChild(4).GetComponent<Transform>();
-        HUD = transform.GetChild(1).gameObject;
+        deathTooltip = Random.Range(0, 4);
         Stats = GameObject.Find("Player").GetComponent<Player_Stats>();
         Combat = GameObject.Find("WeaponControls").GetComponent<Player_Combat>();
-        statsUI = transform.GetChild(0).GetComponent<UI_Stats>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -51,7 +53,7 @@ public class UIManager : MonoBehaviour
         {
             HUD.transform.localScale = Vector3.zero;
             GameManager.Pause = true;
-            transform.GetChild(0).GetChild(3).localScale = Vector3.one;
+            pause.localScale = Vector3.one;
             Tooltips.GetChild(Random.Range(0, Tooltips.childCount)).localScale = Vector3.one;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && !CompletedLevel && !Stats.Death && !statsUI.IsInMenu && GameManager.Pause)
@@ -62,7 +64,7 @@ public class UIManager : MonoBehaviour
                 Tooltips.GetChild(i).localScale = Vector3.zero;
             }
             GameManager.Pause = false;
-            transform.GetChild(0).GetChild(3).localScale = Vector3.zero;
+            pause.localScale = Vector3.zero;
         }
 
         //For the Equipment
@@ -77,9 +79,8 @@ public class UIManager : MonoBehaviour
         {
             HUD.transform.localScale = Vector3.zero;
             statsUI.IsInMenu = false;
-            transform.GetChild(0).GetChild(2).localScale = Vector3.one;
-            transform.GetChild(0).GetChild(2).GetComponent<UI_Stats>().IsInMenu = true;
-            transform.GetChild(0).GetChild(2).GetChild(6).GetChild(deathTooltip).localScale = Vector3.one;
+            Death.localScale = Vector3.one;
+            Death.GetChild(5).GetChild(deathTooltip).localScale = Vector3.one;
         }
         if (CompletedLevel)
         {
@@ -106,10 +107,6 @@ public class UIManager : MonoBehaviour
             case Player_Combat.WeaponState.HAMMER:
                 Shield.transform.localScale = Vector3.one;
                 WeaponCD.GetComponent<Slider>().maxValue = Stats.Equipables.Hammer.SwingSpeed;
-                return;
-            case Player_Combat.WeaponState.GAUNTLET:
-                Shield.transform.localScale = Vector3.zero;
-                WeaponCD.GetComponent<Slider>().maxValue = Stats.Equipables.Gauntlet.SwingSpeed;
                 return;
             case Player_Combat.WeaponState.BOW:
                 Shield.transform.localScale = Vector3.zero;

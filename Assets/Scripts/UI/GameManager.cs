@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static int Level;
     public static EquipmentSelection Equipment;
 
+    public List<GameObject> LootTable;
 
     private void Update()
     {

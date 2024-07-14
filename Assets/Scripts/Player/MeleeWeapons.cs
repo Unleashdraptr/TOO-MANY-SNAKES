@@ -42,12 +42,6 @@ public class MeleeWeapons : MonoBehaviour
                             AttackCDTimer = Stats.Equipables.Hammer.Recharge;
                             colliders[1].enabled = true;
                             return;
-                        case Player_Combat.WeaponState.GAUNTLET:
-                            GetComponent<Player_Combat>().Weapons.SetInteger("Variation", Random.Range(1, 4));
-                            SwingTimeTimer = Stats.Equipables.Gauntlet.SwingSpeed;
-                            AttackCDTimer = Stats.Equipables.Gauntlet.Recharge;
-                            colliders[2].enabled = true;
-                            return;
                     }
                 }
                 if (SwingTimeTimer <= 0 && Attacking == true)
@@ -57,7 +51,6 @@ public class MeleeWeapons : MonoBehaviour
                     Attacking = false;
                     colliders[0].enabled = false;
                     colliders[1].enabled = false;
-                    colliders[2].enabled = false;
                     EnemiesHit.Clear();
                 }
             }
@@ -95,9 +88,6 @@ public class MeleeWeapons : MonoBehaviour
                 float Dist = Vector3.Distance(Enemy.transform.position, transform.GetChild(0).position) * 10;
                 Dist = 100 - ((-Dist * 100) / 18);
                 return (Stats.Equipables.Hammer.Damage / Dist) * 100;
-            case Player_Combat.WeaponState.GAUNTLET:
-                SwingTimeTimer = 0;
-                return Stats.Equipables.Gauntlet.Damage;
         }
         return 0;
     }

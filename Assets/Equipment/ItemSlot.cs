@@ -84,10 +84,6 @@ public class ItemSlot : MonoBehaviour
                     case Equipment.WeaponType.Hammer:
                         player.Equipables.Hammer = (Weapon_Melee)SelectedItem;
                         break;
-
-                    case Equipment.WeaponType.Gauntlets:
-                        //player.Equipables.Gauntlets = (Weapon_Melee)SelectedItem;
-                        break;
                     default:
                         Debug.Log("Could Not Equip Item");
                         break;

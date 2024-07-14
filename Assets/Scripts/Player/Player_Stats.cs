@@ -1,10 +1,11 @@
-using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor;
 using UnityEngine;
+using static Equipment;
 
 public class Player_Stats : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class Player_Stats : MonoBehaviour
     {
         Movement = transform.GetComponentInParent<Player_Movement>();
         moveState = EffectState.NONE;
+        UpdateStats();
     }
 
     // Update is called once per frame
@@ -75,9 +77,46 @@ public class Player_Stats : MonoBehaviour
             }
         }
     }
+    public void UpdateStats()
+    {
+        List<Equipment> equipment = new List<Equipment>
+        {
+            Equipables.Helmet,
+            Equipables.Armour,
+            Equipables.Braces,
+            Equipables.Accessory,
+            Equipables.Boots,
+            Equipables.Sword,
+            Equipables.Bow,
+            Equipables.Hammer
+        };
+        Health += CalculateStats(ModifierType.MaxHealth, equipment) - MaxHealth;
+        MaxHealth = CalculateStats(ModifierType.MaxHealth, equipment);
+        Attack = (int)CalculateStats(ModifierType.Attack, equipment);
+        Defense = (int)CalculateStats(ModifierType.Defense, equipment);
+        HealMult = (int)CalculateStats(ModifierType.HealMult, equipment);
+        DodgeChance = (int)CalculateStats(ModifierType.DodgeChance, equipment);
+        CritChance = (int)CalculateStats(ModifierType.CritChance, equipment);
+        CritMult = (int)CalculateStats(ModifierType.CritMult, equipment);
+    }
+
+    float CalculateStats(ModifierType modifier, List<Equipment> equips)
+    {
+        float StatTotal = Convert.ToInt64(this.GetType().GetField(modifier.ToString()).GetValue(this));
+        foreach (Equipment Mods in equips)
+        {
+            if (Mods.FirstMod == modifier)
+                StatTotal += Mods.FirstModifier;
+            if (Mods.SecondMod == modifier)
+                StatTotal += Mods.SecondModifier;
+            if (Mods.ThirdMod == modifier)
+                StatTotal += Mods.ThirdModifier;
+        }
+        return StatTotal;
+    }
     public void TakeDmg(float attack)
     {
-        if (Random.Range(1, 100) > DodgeChance)
+        if (UnityEngine.Random.Range(1, 100) > DodgeChance)
         {
             OutOfCombat = OutOfCombatTimer;
             if (!Shield.Shielding)
@@ -185,6 +224,5 @@ public class EquipmentSelection
 
     public Weapon_Melee Sword;
     public Weapon_Melee Hammer;
-    public Weapon_Melee Gauntlet;
     public Weapon_Range Bow;
 }

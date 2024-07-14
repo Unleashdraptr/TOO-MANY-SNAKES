@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Threading;
+using UnityEditor;
 using UnityEngine;
 
 public class StartRoom : MonoBehaviour
@@ -10,13 +13,23 @@ public class StartRoom : MonoBehaviour
     public int SpecialSnakeAmount;
     public List<GameObject> snakeTypes;
     private GameObject player;
-    private void OnTriggerEnter(Collider other)
+    float Timer;
+
+    public List<Equipment> LootTable;
+    private void Start()
     {
-        if (other.transform.CompareTag("Player"))
+        player = GameObject.Find("Player Controller").gameObject;
+        SpawnSnakes();
+        Timer = 30;
+    }
+    private void Update()
+    {
+        if(Timer > 0)
+            Timer -= Time.deltaTime;
+        if (Timer < 0)
         {
-            player = other.gameObject;
             SpawnSnakes();
-            Destroy(gameObject);
+            Timer = 30;
         }
     }
 

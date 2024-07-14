@@ -11,7 +11,7 @@ public class Player_Combat : MonoBehaviour
     public bool Shielding;
     public float ShieldHealth;
     public Animator Weapons;
-    public enum WeaponState { SWORD, HAMMER, GAUNTLET, BOW };
+    public enum WeaponState { SWORD, HAMMER, BOW };
     public WeaponState weaponState;
 
     // Start is called before the first frame update
@@ -56,12 +56,12 @@ public class Player_Combat : MonoBehaviour
                     {
                         weaponState -= (WeaponState)1;
                         if (weaponState < 0)
-                            weaponState = (WeaponState)3;
+                            weaponState = (WeaponState)2;
                     }
                     if (Input.mouseScrollDelta.y > 0)
                     {
                         weaponState += 1;
-                        if (weaponState > (WeaponState)3)
+                        if (weaponState > (WeaponState)2)
                             weaponState = 0;
                     }
                     SwapWeapon();
@@ -77,12 +77,12 @@ public class Player_Combat : MonoBehaviour
             Weapons.transform.GetChild(i).localScale = new Vector3(0, 0, 0);
         }
         if ((int)weaponState < 2)
-            Weapons.transform.GetChild(4).localScale = new Vector3(1, 1, 1);
+            Weapons.transform.GetChild(3).localScale = new Vector3(0.5f, 0.5f, 0.5f);
         else
-            Weapons.transform.GetChild(4).localScale = new Vector3(0, 0, 0);
+            Weapons.transform.GetChild(3).localScale = new Vector3(0, 0, 0);
         if ((int)weaponState >= 2 && Shielding == true)
         {
-            Weapons.transform.GetChild(4).localScale = new Vector3(0, 0, 0);
+            Weapons.transform.GetChild(3).localScale = new Vector3(0, 0, 0);
             Shielding = false;
             Weapons.SetBool("IsShielding", Shielding);
             Movement.ShieldSlow *= 4;

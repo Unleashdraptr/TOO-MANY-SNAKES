@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using static Equipment;
+using System.Diagnostics;
 
 public class UI_Stats : MonoBehaviour
 {
@@ -30,12 +31,11 @@ public class UI_Stats : MonoBehaviour
         EquipmentList = new List<Equipment>
         {
                 stats.Equipables.Helmet,
-                stats.Equipables.Braces,
                 stats.Equipables.Armour,
                 stats.Equipables.Accessory,
+                stats.Equipables.Braces,
                 stats.Equipables.Boots,
                 stats.Equipables.Sword,
-                stats.Equipables.Gauntlet,
                 stats.Equipables.Hammer,
                 stats.Equipables.Bow
         };
@@ -50,11 +50,11 @@ public class UI_Stats : MonoBehaviour
     {
         if (Menu)
         {
-            transform.GetChild(0).localScale = Vector3.one;
+            transform.localScale = Vector3.one;
         }
         else
         {
-            transform.GetChild(0).localScale = Vector3.zero;
+            transform.localScale = Vector3.zero;
         }
     }
     float CalculateStats(ModifierType modifier, string modifierToMiss)
@@ -103,7 +103,7 @@ public class UI_Stats : MonoBehaviour
                 Transform Text = Stats.GetChild(i).GetChild(1);
                 Text.localScale = Vector3.one;
                 Text.GetComponent<TextMeshProUGUI>().color = Color.red;
-                Text.GetComponent<TextMeshProUGUI>().text = ("-" + (FullStat - DifferenceStat).ToString());
+                Text.GetComponent<TextMeshProUGUI>().text = (FullStat - DifferenceStat).ToString();
 
             }
             Stats.GetChild(i).GetChild(0).GetComponent<TextMeshProUGUI>().text = CalculateStats((ModifierType)i + 1, modifier).ToString();
