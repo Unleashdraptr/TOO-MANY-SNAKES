@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.1, y: 2.7, z: 138.9}
-  m_LocalScale: {x: 90, y: 5, z: 90}
+  m_LocalScale: {x: 4, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -118,10 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c3bba68576d5f40ab25cfba6eefa94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnArea: 20
-  NormalSnakeAmount: 30
+  SpawnArea: 2
+  NormalSnakeAmount: 1
   DashSnake: {fileID: 4796827331314629578, guid: aef7fe3f0e1450d40b76da3e2a4fec1f, type: 3}
-  SpecialSnakeAmount: 5
+  SpecialSnakeAmount: 1
   snakeTypes:
   - {fileID: 273459902998615831, guid: c158b6830ba7fd84bbe69eefe451d564, type: 3}
   - {fileID: 6223644180480538590, guid: 29921648dec23584baed2536c187aead, type: 3}
