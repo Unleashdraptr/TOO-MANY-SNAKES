@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEditor;
+using Unity.AI.Navigation;
 
 
 public class DungeonGen : MonoBehaviour
 {
+    public GameObject player;
+    public GameObject floorParent;
+    public NavMeshSurface navMeshSurface;
+    public GameObject snakeStart;
     public GameObject corridorPrefab;
+    public GameObject floorPrefab;
+    public GameObject roofPrefab;
     public GameObject[] roomPrefabs;
     public int sizeX = 25;
     public int sizeZ = 25;
     public int maxAttempts = 100;
     public int failLimit = 15;
     public int tileSize = 4;
+    public float roomHeight = 3.4f;
     private List<Room> rooms = new List<Room>();
     private Node[,] map;
     private List<Node> nodeList = new List<Node>();
@@ -58,7 +68,7 @@ public class DungeonGen : MonoBehaviour
             int posZ = Random.Range(0,sizeZ);
             if(map[posX,posZ]==null)
             {
-                map[posX,posZ] = new Node(posX,posZ,true);
+                map[posX,posZ] = new Node(posX,posZ,true,true);
                 nodeStack.Add(map[posX,posZ]);
                 rootPlaced = true;
             }
@@ -89,9 +99,10 @@ public class DungeonGen : MonoBehaviour
         }
         for(int x = 0; x<map.GetLength(0); x++){
             for(int z = 0; z<map.GetLength(1); z++){
-                if(map[x,z].hasParent() || map[x,z].isRoot()) map[x,z].spawn(corridorPrefab,sizeX,sizeZ,tileSize);
+                if(map[x,z].hasParent() || map[x,z].isRoot()) map[x,z].spawn(player, floorParent, snakeStart,corridorPrefab,floorPrefab,roofPrefab,sizeX,sizeZ,tileSize,roomHeight);
             }
         }
+        navMeshSurface.BuildNavMesh();
     }
 
     // Update is called once per frame
@@ -197,7 +208,7 @@ public class DungeonGen : MonoBehaviour
         public void spawn(int tileSize)
         {
             //Debug.Log("attempt instantiation");
-            Instantiate(room,new Vector3((posX)*tileSize,0,(posZ)*tileSize), Quaternion.identity);
+            //Instantiate(room,new Vector3((posX)*tileSize,0,(posZ)*tileSize), Quaternion.identity);
             //Debug.Log("completed instantiation");
         }
         public List<(int,int)> getInhabetingCells() 
@@ -223,6 +234,7 @@ public class DungeonGen : MonoBehaviour
         protected bool visited = false;
         private int posX;
         private int posZ;
+        private bool spawnPoint = false;
         private List<Node> childNodes = new List<Node>();
         private Node parentNode;
         public Node(int posX, int posZ)
@@ -235,6 +247,13 @@ public class DungeonGen : MonoBehaviour
             this.posX = posX;
             this.posZ = posZ;
             this.visited = visited;
+        }
+        public Node(int posX,int posZ, bool visited, bool spawnPoint)
+        {
+            this.posX = posX;
+            this.posZ = posZ;
+            this.visited = visited;
+            this.spawnPoint = spawnPoint;
         }
         public void adopt(Node child)
         {
@@ -262,7 +281,7 @@ public class DungeonGen : MonoBehaviour
             if(nodeX - posX == -1) return 3;
             return 4;
         }
-        public void spawn(GameObject corridor, int sizeX, int sizeZ, int tileSize)
+        public void spawn(GameObject player,GameObject floorParent, GameObject snakeStart, GameObject corridor,GameObject floor, GameObject roof, int sizeX, int sizeZ, int tileSize,float roomHeight)
         {
             bool[] walls = new bool[]{true,true,true,true}; // walls to be placed in NESW order
 
@@ -275,11 +294,23 @@ public class DungeonGen : MonoBehaviour
                 walls[getDirection(child)] = false;
             }
             
-            if(walls[0]) Instantiate(corridor, new Vector3((posX+0.5f)*tileSize, 0,(posZ)*tileSize), new Quaternion(0,0.707106829f,0.707106829f,0));
-            if(walls[1]) Instantiate(corridor, new Vector3((posX+1)*tileSize, 0,(posZ+0.5f)*tileSize), new Quaternion(0.5f,0.5f,0.5f,-0.5f));
-            if(walls[2]) Instantiate(corridor, new Vector3((posX+0.5f)*tileSize, 0,(posZ+1)*tileSize), new Quaternion(0.707106829f,0,0,-0.707106829f));
-            if(walls[3]) Instantiate(corridor, new Vector3((posX)*tileSize, 0,(posZ+0.5f)*tileSize), new Quaternion(-0.5f,0.5f,0.5f,0.5f));
+            if (walls[0]) Instantiate(corridor, new Vector3((posX + 0.5f) * tileSize, roomHeight/2f - 0.5f, posZ * tileSize), Quaternion.Euler(-90, 90, 0)); // North wall
+            if (walls[1]) Instantiate(corridor, new Vector3((posX + 1) * tileSize, roomHeight/2f - 0.5f, (posZ + 0.5f) * tileSize), Quaternion.Euler(-90, 0, 0));  // East wall
+            if (walls[2]) Instantiate(corridor, new Vector3((posX + 0.5f) * tileSize, roomHeight/2f - 0.5f, (posZ + 1) * tileSize), Quaternion.Euler(-90, -90, 0)); // South wall
+            if (walls[3]) Instantiate(corridor, new Vector3(posX * tileSize, roomHeight/2f - 0.5f, (posZ + 0.5f) * tileSize), Quaternion.Euler(-90, 180, 0));  // West wall
             
+            var floorMan = Instantiate(floor, new Vector3((posX + 0.5f) * tileSize, 0, (posZ + 0.5f) * tileSize), Quaternion.Euler(-90, 0, 0)); //floor
+            floorMan.transform.parent = floorParent.transform;
+            Instantiate(roof, new Vector3((posX + 0.5f) * tileSize, roomHeight, (posZ + 0.5f) * tileSize), Quaternion.Euler(90, 0, 0)); //roof
+            
+            if(spawnPoint) 
+            {
+                Debug.Log("setting player");
+                Instantiate(player,new Vector3((posX + 0.5f) * tileSize, roomHeight/2f - 0.5f, (posZ + 0.5f) * tileSize), Quaternion.identity);
+            }
+            else{
+                if(Random.Range(0,100)>75) Instantiate(snakeStart,new Vector3((posX + 0.5f) * tileSize, 0.5f, (posZ + 0.5f) * tileSize), Quaternion.identity);
+            }
         }
     }
 }
