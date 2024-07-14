@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     public Transform BowPower;
     void Start()
     {
-        deathTooltip = Random.Range(0, transform.GetChild(0).GetChild(2).GetChild(6).childCount);
+        deathTooltip = Random.Range(0, transform.GetChild(0).GetChild(2).GetChild(5).childCount);
         Tooltips = transform.GetChild(0).GetChild(3).GetChild(4).GetComponent<Transform>();
         HUD = transform.GetChild(1).gameObject;
         Stats = GameObject.Find("Player").GetComponent<Player_Stats>();
@@ -68,14 +68,7 @@ public class UIManager : MonoBehaviour
         //For the Equipment
         if (Input.GetKeyDown(KeyCode.E) && !CompletedLevel && !Stats.Death && GameManager.Pause == statsUI.IsInMenu)
         {
-            statsUI.IsInMenu = !statsUI.IsInMenu;
-            if (statsUI.IsInMenu)
-            {
-                HUD.transform.localScale = Vector3.zero;
-            }
-            else
-                HUD.transform.localScale = Vector3.one;
-            GameManager.Pause = statsUI.IsInMenu;
+            Resume();
         }
 
 
@@ -114,9 +107,9 @@ public class UIManager : MonoBehaviour
                 Shield.transform.localScale = Vector3.one;
                 WeaponCD.GetComponent<Slider>().maxValue = Stats.Equipables.Hammer.SwingSpeed;
                 return;
-            case Player_Combat.WeaponState.MELEE:
+            case Player_Combat.WeaponState.GAUNTLET:
                 Shield.transform.localScale = Vector3.zero;
-                WeaponCD.GetComponent<Slider>().maxValue = Stats.Equipables.Gloves.SwingSpeed;
+                WeaponCD.GetComponent<Slider>().maxValue = Stats.Equipables.Gauntlet.SwingSpeed;
                 return;
             case Player_Combat.WeaponState.BOW:
                 Shield.transform.localScale = Vector3.zero;
@@ -129,6 +122,18 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public void Resume ()
+    {
+        statsUI.IsInMenu = !statsUI.IsInMenu;
+        if (statsUI.IsInMenu)
+        {
+            HUD.transform.localScale = Vector3.zero;
+        }
+        else
+            HUD.transform.localScale = Vector3.one;
+        statsUI.UpdateMenu();
+        GameManager.Pause = statsUI.IsInMenu;
+    }
     public void Restart(bool Successful)
     {
         if (Successful)

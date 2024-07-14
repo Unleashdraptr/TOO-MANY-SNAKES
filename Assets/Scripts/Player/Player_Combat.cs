@@ -11,7 +11,7 @@ public class Player_Combat : MonoBehaviour
     public bool Shielding;
     public float ShieldHealth;
     public Animator Weapons;
-    public enum WeaponState { SWORD, HAMMER, MELEE, BOW };
+    public enum WeaponState { SWORD, HAMMER, GAUNTLET, BOW };
     public WeaponState weaponState;
 
     // Start is called before the first frame update

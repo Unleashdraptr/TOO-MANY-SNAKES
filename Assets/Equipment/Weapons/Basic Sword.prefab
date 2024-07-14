@@ -44,11 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e7f749abb108f48a421ced370fe85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: 1
+  Level: 0
   Name: Basic Sword
   BuyPrice: 10
   SellPrice: 5
-  UISprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  equipment: 6
+  weapon: 1
+  Defense: 0
+  FirstMod: 0
+  FirstModifier: 0
+  SecondMod: 0
+  SecondModifier: 0
+  ThirdMod: 0
+  ThirdModifier: 0
   Damage: 10
   SwingSpeed: 0.66
   Recharge: 1.66

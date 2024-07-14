@@ -46,12 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: 0
   Name: Basic Accessory
-  BuyPrice: 0
-  SellPrice: 0
-  UISprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  equipment: 0
+  BuyPrice: 15
+  SellPrice: 10
+  equipment: 5
   weapon: 0
-  Defense: 0
+  Defense: 1
   FirstMod: 0
   FirstModifier: 0
   SecondMod: 0

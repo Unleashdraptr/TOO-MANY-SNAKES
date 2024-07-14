@@ -177,14 +177,14 @@ public class Player_Stats : MonoBehaviour
 [System.Serializable]
 public class EquipmentSelection
 {
-    public Equipment Head;
+    public Equipment Helmet;
     public Equipment Armour;
     public Equipment Braces;
     public Equipment Accessory;
-    public Equipment Bootgear;
+    public Equipment Boots;
 
     public Weapon_Melee Sword;
     public Weapon_Melee Hammer;
-    public Weapon_Melee Gloves;
+    public Weapon_Melee Gauntlet;
     public Weapon_Range Bow;
 }

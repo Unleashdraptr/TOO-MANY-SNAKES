@@ -9,5 +9,4 @@ public class Item : MonoBehaviour
     public string Name;
     public int BuyPrice;
     public int SellPrice;
-    public Sprite UISprite;
 }
